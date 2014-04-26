@@ -1,0 +1,32 @@
+{
+  "name": "topthat",
+  "author": "tofumatt",
+  "description": "Automate your version updates.",
+  "keywords": [
+    "automation",
+    "version"
+  ],
+  "version": "0.1.0",
+  "homepage": "http://tofumatt.com/topthat",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tofumatt/topthat.git"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {},
+  "main": "bin/topthat.js",
+  "licence": "Apache 2.0",
+  "bugs": {
+    "url": "http://github.com/tofumatt/topthat/issues"
+  },
+  "bin": {
+    "topthat": "bin/topthat.js"
+  },
+  "dependencies": {
+    "nopt": "~2.2.0",
+    "chalk": "~0.4.0",
+    "semver": "~2.2.1"
+  }
+}
