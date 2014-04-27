@@ -20,8 +20,10 @@
   "validthis": true,
 
   "globals": {
+    "console": true,
     "define": true,
     "module": true,
+    "process": true,
     "require": true
   }
 }
