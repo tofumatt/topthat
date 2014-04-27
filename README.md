@@ -25,10 +25,10 @@ topthat
 Project updated to version 1.1.0 from 1.0.0!
 ```
 
-To release a **bugfix update**:
+To release a **patch**:
 
 ```bash
-topthat bugfix
+topthat patch
 
 Project updated to version 1.1.1 from 1.1.0!
 ```
