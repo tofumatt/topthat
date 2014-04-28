@@ -76,3 +76,9 @@ checked out, then you just need to type `npm link` if you want to test the
 binary as a globally available command.
 
 [fork]: https://github.com/tofumatt/topthat/fork
+
+# License
+
+You can use this project freely under the Apache 2.0 license.
+
+Copyright (c) 2014 by [Matthew Riley MacPherson](http://tofumatt.com/).
