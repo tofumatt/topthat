@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 'use strict';
 
-var VERSION = '0.1.0'; // @topthat
+var VERSION = '0.2.0'; // @topthat
 
 var chalk = require('chalk');
 var nopt = require('nopt');

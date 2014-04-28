@@ -54,8 +54,8 @@ var TopThat = {
         } catch (err) {
             // Update any string matching the current version with the new
             // one. Obviously, this could be tweaked in the future.
-            if (fileString.match(this.currentVersion)) {
-                fileString.replace(this.currentVersion(), this.nextVersion());
+            if (fileString.match(this.currentVersion())) {
+                fileString = fileString.replace(this.currentVersion(), this.nextVersion());
             }
 
             return fileString;
@@ -130,6 +130,7 @@ var TopThat = {
 
         // Other files we should replace the version number in.
         this.filesToUpdate.forEach(function(file) {
+            console.log(file);
             _this.writeFile(file, 'bumpVersion');
         });
 
