@@ -1,9 +1,4 @@
-// Do simple substitutions on any String object. (Monkeypatching FTW.)
-// Accepts either an array or an object of subsitutions.
-// If you supply an Array:
-//   `'Hello {0}.'.format(['world'])` will return: 'Hello world.'
-// If you supply an Object:
-//   `'Hello {world}.'.format({world: 'Earth'})` will return: 'Hello Earth.'
+// Do simple substitutions on a String object.
 module.exports = function(string, substitutions) {
   'use strict';
 
