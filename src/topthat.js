@@ -29,7 +29,7 @@ var TopThat = {
     filesToUpdate: [],
 
     // Default upgradeType is "minor".
-    upgradeType: 'minor',
+    upgradeType: MINOR_UPDATE,
 
     addBanner: function(fileString) {
         return template(BANNER, this.bannerData()) + fileString;
@@ -52,9 +52,13 @@ var TopThat = {
 
             return JSON.stringify(json, null, 2) + '\n';
         } catch (err) {
-            // TODO: Update non-JSON files?
-            console.log(err);
-            return false;
+            // Update any string matching the current version with the new
+            // one. Obviously, this could be tweaked in the future.
+            if (fileString.match(this.currentVersion)) {
+                fileString.replace(this.currentVersion(), this.nextVersion());
+            }
+
+            return fileString;
         }
     },
 
