@@ -10,6 +10,7 @@
   "latedef": true,
   "newcap": true,
   "noarg": true,
+  "node": true,
   "nonew": true,
   "quotmark": false,
   "undef": true,
@@ -17,13 +18,5 @@
   "strict": false,
   "trailing": false,
 
-  "validthis": true,
-
-  "globals": {
-    "console": true,
-    "define": true,
-    "module": true,
-    "process": true,
-    "require": true
-  }
+  "validthis": true
 }
