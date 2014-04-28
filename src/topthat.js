@@ -1,22 +1,87 @@
 var fs = require('fs');
 var path = require('path');
 var semver = require('semver');
+var template = require('./template');
 
 var BANNER = '/*!\n' +
              '    {{name}} -- {{description}}\n' +
              '    Version {{version}}\n' +
-             '    {{url}}\n' +
-             '    (c) {{year}} {{author}}, {{license}}\n' +
+             '    {{homepage}}{{url}}\n' +
+             '    (c) {{year}} {{author}}, {{licence}}{{license}}\n' +
              '*/\n';
 
-var TopThat = {
-    _filesToUpdate: ['bower.json', 'package.json'],
+var FILES_TO_ALWAYS_UPDATE = ['bower.json', 'package.json'];
 
+var MAJOR_UPDATE_SHORTHANDS = ['big', 'major'];
+var MINOR_UPDATE_SHORTHANDS = ['', 'minor'];
+var PATCH_UPDATE_SHORTHANDS = ['bugfix', 'patch'];
+
+var MAJOR_UPDATE = 'major';
+var MINOR_UPDATE = 'minor';
+var PATCH_UPDATE = 'patch';
+
+var TopThat = {
     _packageData: undefined,
     _packageToUse: 'package.json',
 
+    // Files we add a banner to; usually built/dist source JS.
+    bannerFilesToUpdate: [],
+    filesToUpdate: [],
+
     // Default upgradeType is "minor".
     upgradeType: 'minor',
+
+    addBanner: function(fileString) {
+        return template(BANNER, this.bannerData()) + fileString;
+    },
+
+    bannerData: function() {
+        var data = this.getPackage();
+        data.version = this.nextVersion();
+        data.year = new Date().getFullYear();
+
+        return data;
+    },
+
+    bumpVersion: function(fileString) {
+        // Try to simply replace the JSON version attribute if the file is
+        // valid JSON and has a "version" attribute.
+        try {
+            var json = JSON.parse(fileString);
+            json.version = this.nextVersion();
+
+            return JSON.stringify(json, null, 2) + '\n';
+        } catch (err) {
+            // TODO: Update non-JSON files?
+            console.log(err);
+            return false;
+        }
+    },
+
+    // Set the options for this topthat run.
+    config: function(options) {
+        if (options.upgradeType) {
+            if (MAJOR_UPDATE_SHORTHANDS.indexOf(options.upgradeType)) {
+                this.upgradeType = MAJOR_UPDATE;
+            } else if (MINOR_UPDATE_SHORTHANDS.indexOf(options.upgradeType)) {
+                this.upgradeType = MINOR_UPDATE;
+            } else if (PATCH_UPDATE_SHORTHANDS.indexOf(options.upgradeType)) {
+                this.upgradeType = PATCH_UPDATE;
+            } else {
+                return new Error('Unrecognized update type');
+            }
+        }
+
+        if (options.banner) {
+            this.bannerFilesToUpdate = options.banner;
+        }
+
+        if (options.files) {
+            this.filesToUpdate = options.files;
+        }
+
+        return true;
+    },
 
     // Return the current version of the package we're working on.
     currentVersion: function() {
@@ -48,32 +113,47 @@ var TopThat = {
         var _this = this;
         var filesUpdated = 0;
 
-        this._filesToUpdate.forEach(function(file) {
-            var pathToFile = path.join(process.env.PWD, file);
-            try {
-                var fileString = fs.readFileSync(pathToFile, 'utf8');
-            } catch (err) {
-                return;
-            }
-
-            // Try to simply replace the JSON version attribute if the file is
-            // valid JSON and has a "version" attribute.
-            try {
-                var json = JSON.parse(fileString);
-                json.version = _this.nextVersion();
-
-                var newFile = JSON.stringify(json, null, 2) + '\n';
-
-                if (fs.writeFileSync(pathToFile, newFile)) {
-                    filesUpdated++;
-                }
-            } catch (err) {
-                // TODO: Update non-JSON files?
-                console.log(err);
+        FILES_TO_ALWAYS_UPDATE.forEach(function(file) {
+            if (_this.writeFile(file, 'bumpVersion')) {
+                filesUpdated++;
             }
         });
 
-        if (filesUpdated === this._filesToUpdate.length) {
+        // If we failed to update bower.json AND package.json: we've failed.
+        if (filesUpdated === 0) {
+            return false;
+        }
+
+        // Other files we should replace the version number in.
+        this.filesToUpdate.forEach(function(file) {
+            _this.writeFile(file, 'bumpVersion');
+        });
+
+        // Files we should append a banner to.
+        this.bannerFilesToUpdate.forEach(function(file) {
+            _this.writeFile(file, 'addBanner');
+        });
+
+        return true;
+    },
+
+    writeFile: function(file, action) {
+        var fileString;
+        var pathToFile = path.join(process.env.PWD, file);
+
+        try {
+            fileString = fs.readFileSync(pathToFile, 'utf8');
+        } catch (err) {
+            return false;
+        }
+
+        var newFile = this[action](fileString);
+
+        if (!newFile) {
+            return false;
+        }
+
+        if (fs.writeFileSync(pathToFile, newFile) !== false) {
             return true;
         } else {
             return false;
