@@ -11,7 +11,7 @@ topthat assumes the current version of your app/library is in `package.json`.
 Make sure you have [Node](http://nodejs.org/) installed, then run:
 
 ```bash
-npm install -g topthat
+$ npm install -g topthat
 ```
 
 # Usage
@@ -20,7 +20,7 @@ You can use `topthat` right from the command line. Use in the same directory
 as your project to **automatically update to the next minor version**:
 
 ```bash
-topthat
+$ topthat
 
 Project updated to version 1.1.0 from 1.0.0!
 ```
@@ -28,7 +28,7 @@ Project updated to version 1.1.0 from 1.0.0!
 To release a **patch**:
 
 ```bash
-topthat patch
+$ topthat patch
 
 Project updated to version 1.1.1 from 1.1.0!
 ```
@@ -36,7 +36,7 @@ Project updated to version 1.1.1 from 1.1.0!
 You can perform a **major version update** too:
 
 ```bash
-topthat major
+$ topthat major
 
 Project updated to version 2.0.0 from 1.1.1!
 ```
@@ -44,7 +44,7 @@ Project updated to version 2.0.0 from 1.1.1!
 Finally, you can **manually specify the new version**:
 
 ```bash
-topthat 2.1.2
+$ topthat 2.1.2
 
 Project updated to version 2.1.2 from 2.0.0!
 ```
@@ -55,7 +55,7 @@ Add a JS comment banner (with project info, pulled from `package.json`) to any
 file using the `--banner` argument:
 
 ```bash
-topthat --banner=dist/my-lib.js
+$ topthat --banner=dist/my-lib.js
 ```
 
 ## Extra Files
@@ -65,5 +65,5 @@ By default, topthat attempts to bump the version in `package.json` and
 `--files` argument:
 
 ```bash
-topthat --files=component.json
+$ topthat --files=component.json
 ```
