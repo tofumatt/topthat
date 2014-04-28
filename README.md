@@ -67,3 +67,12 @@ By default, topthat attempts to bump the version in `package.json` and
 ```bash
 $ topthat --files=component.json
 ```
+
+# Development
+
+Want to hack on topthat? [Fork the repo][fork] on GitHub, then do a `git clone`
+of your fork. You'll want to run `npm install` from inside the folder you've
+checked out, then you just need to type `npm link` if you want to test the
+binary as a globally available command.
+
+[fork]: https://github.com/tofumatt/topthat/fork
