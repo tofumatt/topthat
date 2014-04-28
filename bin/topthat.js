@@ -41,7 +41,7 @@ if (!topthat.config({
 }
 
 if (topthat.replaceFiles()) {
-    console.log(chalk.green('Upgraded to version ') + 
+    console.log(chalk.green('Updated to version ') + 
             chalk.blue(topthat.nextVersion()) + 
             chalk.green(' from version ') + 
             chalk.blue(topthat.currentVersion()) +

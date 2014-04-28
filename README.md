@@ -22,7 +22,7 @@ as your project to **automatically update to the next minor version**:
 ```bash
 $ topthat
 
-Project updated to version 1.1.0 from 1.0.0!
+Updated to version 1.1.0 from 1.0.0!
 ```
 
 To release a **patch**:
@@ -30,7 +30,7 @@ To release a **patch**:
 ```bash
 $ topthat patch
 
-Project updated to version 1.1.1 from 1.1.0!
+Updated to version 1.1.1 from 1.1.0!
 ```
 
 You can perform a **major version update** too:
@@ -38,7 +38,7 @@ You can perform a **major version update** too:
 ```bash
 $ topthat major
 
-Project updated to version 2.0.0 from 1.1.1!
+Updated to version 2.0.0 from 1.1.1!
 ```
 
 Finally, you can **manually specify the new version**:
@@ -46,7 +46,7 @@ Finally, you can **manually specify the new version**:
 ```bash
 $ topthat 2.1.2
 
-Project updated to version 2.1.2 from 2.0.0!
+Updated to version 2.1.2 from 2.0.0!
 ```
 
 ## Banners
