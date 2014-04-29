@@ -1,8 +1,6 @@
 #! /usr/bin/env node
 'use strict';
 
-var VERSION = '0.2.0'; // @topthat
-
 var chalk = require('chalk');
 var nopt = require('nopt');
 var topthat = require('../src/topthat');
@@ -17,7 +15,7 @@ var opts = nopt({
 });
 
 if (opts.version) {
-    return console.log(chalk.blue('topthat, Version ' + VERSION));
+    return console.log('topthat, Version ' + chalk.blue(topthat.VERSION));
 }
 
 var banner = opts.banner;

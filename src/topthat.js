@@ -1,5 +1,7 @@
 'use strict';
 
+var VERSION = '0.2.0'; // @topthat
+
 var fs = require('fs');
 var path = require('path');
 var semver = require('semver');
@@ -32,6 +34,8 @@ var TopThat = {
 
     // Default upgradeType is "minor".
     upgradeType: MINOR_UPDATE,
+
+    VERSION: VERSION,
 
     addBanner: function(fileString) {
         return template(BANNER, this.bannerData()) + fileString;
