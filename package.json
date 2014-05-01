@@ -6,7 +6,7 @@
     "automation",
     "version"
   ],
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "http://tofumatt.com/topthat",
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
   "dependencies": {
     "nopt": "~2.2.0",
     "chalk": "~0.4.0",
-    "semver": "~2.2.1"
+    "semver": "~2.2.1",
+    "ejs": "~1.0.0"
   }
 }

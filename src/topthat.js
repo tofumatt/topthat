@@ -1,18 +1,11 @@
 'use strict';
 
-var VERSION = '0.2.0'; // @topthat
+var VERSION = '0.2.1'; // @topthat
 
+var ejs = require('ejs');
 var fs = require('fs');
 var path = require('path');
 var semver = require('semver');
-var template = require('./template');
-
-var BANNER = '/*!\n' +
-             '    {{name}} -- {{description}}\n' +
-             '    Version {{version}}\n' +
-             '    {{homepage}}{{url}}\n' +
-             '    (c) {{year}} {{author}}, {{licence}}{{license}}\n' +
-             '*/\n';
 
 var FILES_TO_ALWAYS_UPDATE = ['bower.json', 'package.json'];
 
@@ -32,13 +25,16 @@ var TopThat = {
     bannerFilesToUpdate: [],
     filesToUpdate: [],
 
-    // Default upgradeType is "minor".
-    upgradeType: MINOR_UPDATE,
+    // Default updateType is "minor".
+    updateType: MINOR_UPDATE,
 
     VERSION: VERSION,
 
     addBanner: function(fileString) {
-        return template(BANNER, this.bannerData()) + fileString;
+        var bannerPath = path.join('src', 'banner.js.ejs');
+        var bannerTemplate = fs.readFileSync(bannerPath, 'utf8');
+
+        return ejs.render(bannerTemplate, this.bannerData()) + fileString;
     },
 
     bannerData: function() {
@@ -70,13 +66,13 @@ var TopThat = {
 
     // Set the options for this topthat run.
     config: function(options) {
-        if (options.upgradeType) {
-            if (MAJOR_UPDATE_SHORTHANDS.indexOf(options.upgradeType)) {
-                this.upgradeType = MAJOR_UPDATE;
-            } else if (MINOR_UPDATE_SHORTHANDS.indexOf(options.upgradeType)) {
-                this.upgradeType = MINOR_UPDATE;
-            } else if (PATCH_UPDATE_SHORTHANDS.indexOf(options.upgradeType)) {
-                this.upgradeType = PATCH_UPDATE;
+        if (options.updateType) {
+            if (MAJOR_UPDATE_SHORTHANDS.indexOf(options.updateType) >= 0) {
+                this.updateType = MAJOR_UPDATE;
+            } else if (MINOR_UPDATE_SHORTHANDS.indexOf(options.updateType) >= 0) {
+                this.updateType = MINOR_UPDATE;
+            } else if (PATCH_UPDATE_SHORTHANDS.indexOf(options.updateType) >= 0) {
+                this.updateType = PATCH_UPDATE;
             } else {
                 return new Error('Unrecognized update type');
             }
@@ -116,7 +112,7 @@ var TopThat = {
     },
 
     nextVersion: function() {
-        return semver.inc(this.currentVersion(), this.upgradeType);
+        return semver.inc(this.currentVersion(), this.updateType);
     },
 
     replaceFiles: function() {
@@ -136,7 +132,6 @@ var TopThat = {
 
         // Other files we should replace the version number in.
         this.filesToUpdate.forEach(function(file) {
-            console.log(file);
             _this.writeFile(file, 'bumpVersion');
         });
 
