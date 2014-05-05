@@ -7,7 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var semver = require('semver');
 
-var FILES_TO_ALWAYS_UPDATE = ['bower.json', 'package.json'];
+var FILES_TO_ALWAYS_UPDATE = ['bower.json', 'component.json', 'package.json'];
 
 var MAJOR_UPDATE_SHORTHANDS = ['big', 'major'];
 var MINOR_UPDATE_SHORTHANDS = ['', 'minor'];
